@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/fondomarino2"
+                android:gravity="center"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/textViewLatitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/latitud"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/latitud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewLatitud"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textViewLongitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewLatitud"
+        android:layout_marginTop="38dp"
+        android:text="@string/longitud"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/longitud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewLongitud"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textDistancia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Deriva"
+        android:layout_above="@+id/latitud"
+        android:layout_alignRight="@+id/textViewTelefono"
+        android:layout_alignEnd="@+id/textViewTelefono"/>
+
+    <TextView
+        android:id="@+id/distancia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textDistancia"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/textDistancia"
+        android:layout_alignStart="@+id/textDistancia"/>
+    <TextView
+        android:id="@+id/textViewderiva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/longitud"
+        android:text="@string/DerivaMaxima"/>
+
+    <TextView
+        android:id="@+id/textViewTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/longitud"
+        android:layout_marginEnd="46dp"
+        android:layout_marginRight="46dp"
+        android:text="@string/Telefono"/>
+
+
+    <Button
+        android:id="@+id/datos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/deriva"
+        android:layout_marginTop="69dp"
+        android:text="@string/ObtenerDireccion"/>
+
+    <TextView
+        android:id="@+id/resultado"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/textViewderiva"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/datos"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/telefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/arranca"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/arranca"
+        android:layout_below="@+id/textViewTelefono"
+        android:ems="10"
+        android:hint="666666666"
+        android:inputType="phone"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/deriva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textViewLongitud"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textViewLongitud"
+        android:layout_below="@+id/textViewderiva"
+        android:ems="10"
+        android:hint="000"
+        android:inputType="phone"
+        android:textStyle="bold"/>
+
+    <ToggleButton
+        android:id="@+id/arranca"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@+id/datos"
+        android:layout_alignEnd="@+id/textViewTelefono"
+        android:layout_alignRight="@+id/textViewTelefono"
+        android:height="100dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/anclaazuladr"
+        android:checked="true"
+        android:scaleType="fitCenter"
+        android:text="@string/Arranca"/>
+
+</RelativeLayout>
