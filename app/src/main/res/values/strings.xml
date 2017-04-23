@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Location</string>
+    <string name="longitud">Longitud</string>
+    <string name="latitud">Latitud</string>
+    <string name="Deriva">Deriva</string>
+    <string name="ObtenerDireccion">Obtener Dirección</string>
+    <string name="Arranca">Arranca</string>
+    <string name="Telefono">Teléfono</string>
+    <string name="DerivaMaxima">Deriva Máxima</string>
+</resources>
