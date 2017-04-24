@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -24,6 +28,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -42,6 +48,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import static com.birdi.solutions.Location.R.*;
 
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button datos;
     ToggleButton arranca;
     TextView latitud,longitud,resultado,distancia;
+    RadioGroup aviso;
 
     EditText maximaDeriva,telefono;
 
@@ -66,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LocationListener locationListener;
     AlertDialog alert = null;
 
-
-
+    SoundPool mSoundPool;  //Generador de sonido
+    int cargasonido;
 
 
     @Override
@@ -80,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         longitud = (TextView) findViewById(id.longitud);
         distancia= (TextView) findViewById(id.distancia);
         resultado = (TextView) findViewById(id.resultado);
+
+        aviso = (RadioGroup) findViewById(id.radio_group_aviso); //Crea el grupo de botones de aviso, y activa SMS
+        aviso.check(id.radio_sms);
+
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_ALARM,0); //Creamos un sonido tipo Alarma
+        cargasonido= mSoundPool.load(this, R.raw.nautical008,1);
 
         maximaDeriva= (EditText) findViewById(id.deriva) ;
         maximaDeriva.setText("10");
@@ -138,10 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
        /****Permisos****/
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Han fallado los permisos Localización", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Han fallado los permisos Localización", Toast.LENGTH_LONG).show();
                 return;
             } else {
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -177,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //ACTIVA EL LISTENNER y arranca GPS manager
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
 
         /* Datos de los proveedores */
         //List<String> listaProveedores = locationManager.getAllProviders();
@@ -193,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //String mejorProveedor = locationManager.getBestProvider(criteria,true);
         /*-----*/
 
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
     }
 
@@ -248,10 +264,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
             }
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
         }
 
 
@@ -277,21 +295,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             longi=longi.replace(",",".");
             longitud.setText(longi);
             location=loc; //Actualiza location con el nuevo valor
-            //Calcula distancia
+            //Calcula distancia y arranca avisos, si procede
 
             if (activo==true){
-
 
                     distance = location.distanceTo(posicionFija);
                     distancia.setText(String.valueOf(formatoDosDecimales.format(distance)));
                     if (distance>=Integer.parseInt(maximaDeriva.getText().toString())){
                         //resultado.setText("Superado Límite de Deriva");
-                        String phoneNo = telefono.getText().toString();
-                        String sms;
-
-                        sms = "Superada Deriva"+"\n LAT:"+lat+ "\n LON:"+longi+ "\nhttp://google.com/maps/place/" + lat + "," + longi + " ";
-                        sms=sms+resultado.getText().toString();
-                        enviaSms(phoneNo,sms);
+                        if (aviso.getCheckedRadioButtonId()== id.radio_sms){
+                            String phoneNo = telefono.getText().toString();
+                            String sms = "Superada Deriva"+"\n LAT:"+lat+ "\n LON:"+longi+ "\nhttp://google.com/maps/place/" + lat + "," + longi + " ";
+                            sms=sms+resultado.getText().toString();
+                            enviaSms(phoneNo,sms);
+                        }else if(aviso.getCheckedRadioButtonId()==id.radio_bocina){
+                            mSoundPool.play(cargasonido,1,1,0,3,1);
+                        }
 
                         //activo=false; // Suspendemos el estado activo y reestablecemos posición fija
                         posicionFija=location; //Tomamos una nueva posición Fija
@@ -302,8 +321,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+//Méto de verificación de Aviso por SMS o Alarma
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
 
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case id.radio_sms:
+                if (checked)
+                    // Pulsado SMS
+                    break;
+            case id.radio_bocina:
+                if (checked)
+                    // Pulsado Alarma
+                    break;
+        }
+    }
 
 
     public void enviaSms(String Ntelefono, String TextoSMS){

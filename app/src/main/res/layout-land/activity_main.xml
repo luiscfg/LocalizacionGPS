@@ -24,9 +24,10 @@
 
     <TextView
         android:id="@+id/latitud"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewLatitud"
+        android:hint="0000"
         android:textSize="18sp"
         android:textStyle="bold"/>
 
@@ -43,9 +44,10 @@
 
     <TextView
         android:id="@+id/longitud"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewLongitud"
+        android:hint="0000"
         android:textSize="18sp"
         android:textStyle="bold"/>
 
@@ -71,40 +73,43 @@
         android:id="@+id/textViewderiva"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/longitud"
-        android:text="@string/DerivaMaxima"/>
+        android:text="@string/DerivaMaxima"
+        android:layout_alignBottom="@+id/resultado"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/telefono"/>
 
     <TextView
         android:id="@+id/textViewTelefono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/longitud"
         android:layout_marginEnd="46dp"
         android:layout_marginRight="46dp"
-        android:text="@string/Telefono"/>
+        android:text="@string/Telefono"
+        android:layout_alignTop="@+id/textViewLongitud"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 
     <Button
         android:id="@+id/datos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/deriva"
-        android:layout_marginTop="69dp"
-        android:text="@string/ObtenerDireccion"/>
+        android:text="@string/ObtenerDireccion"
+        android:layout_below="@+id/longitud"
+        android:layout_alignRight="@+id/radio_group_aviso"
+        android:layout_alignEnd="@+id/radio_group_aviso"/>
 
     <TextView
         android:id="@+id/resultado"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignLeft="@+id/textViewderiva"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:text=""
         android:layout_below="@+id/datos"
-        android:text=""/>
+        android:layout_alignLeft="@+id/datos"
+        android:layout_alignStart="@+id/datos"
+        android:layout_alignRight="@+id/datos"
+        android:layout_alignEnd="@+id/datos"/>
 
     <EditText
         android:id="@+id/telefono"
@@ -123,38 +128,37 @@
         android:id="@+id/deriva"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textViewLongitud"
+        android:layout_alignBottom="@+id/resultado"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/textViewLongitud"
-        android:layout_below="@+id/textViewderiva"
         android:ems="10"
-        android:hint="000"
+        android:hint="0000"
         android:inputType="phone"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/textViewderiva"
+        android:layout_alignEnd="@+id/textViewderiva"/>
 
     <ToggleButton
         android:id="@+id/arranca"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignBottom="@+id/datos"
-        android:layout_alignEnd="@+id/textViewTelefono"
-        android:layout_alignRight="@+id/textViewTelefono"
         android:height="100dp"
         android:adjustViewBounds="true"
         android:background="@drawable/anclaazuladr"
         android:checked="true"
         android:scaleType="fitCenter"
-        android:text="@string/Arranca"/>
+        android:text="@string/Arranca"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textViewTelefono"
+        android:layout_alignStart="@+id/textViewTelefono"/>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/radio_group_aviso"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textViewLatitud"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true">
 
         <RadioButton
             android:id="@+id/radio_sms"

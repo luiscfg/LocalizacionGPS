@@ -8,4 +8,6 @@
     <string name="Arranca">Start</string>
     <string name="Telefono">Telephone</string>
     <string name="DerivaMaxima">Maximun leeway</string>
+    <string name="sms">Send SMS</string>
+    <string name="bocina">Alarm</string>
 </resources>

@@ -7,4 +7,6 @@
     <string name="Arranca">Arranca</string>
     <string name="Telefono">Teléfono</string>
     <string name="DerivaMaxima">Deriva Máxima</string>
+    <string name="sms">Envia SMS</string>
+    <string name="bocina">Alarma</string>
 </resources>
